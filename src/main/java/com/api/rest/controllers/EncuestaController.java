@@ -52,7 +52,7 @@ public class EncuestaController {
     @PutMapping("/encuestas/{idEncuesta}")
     public ResponseEntity<?> updateEncuesta(@RequestBody Encuesta encuesta, @PathVariable Long idEncuesta){
         encuesta.setId(idEncuesta);
-        Encuesta e = encuestaRepository.save(encuesta);
+        encuestaRepository.save(encuesta);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
