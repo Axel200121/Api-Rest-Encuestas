@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,4 +18,5 @@ public class ErrorDetailDTO {
     private String detail;
     private long timeStamp;
     private String developerMessage;
+    private Map<String, List<ValidationErrorDTO>> errors = new HashMap<>();
 }
