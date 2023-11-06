@@ -1,4 +1,4 @@
-package com.api.rest.controllers;
+package com.api.rest.controllers.v1;
 
 import com.api.rest.exception.ResourceNotFoundException;
 import com.api.rest.model.Encuesta;
@@ -14,7 +14,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.Optional;
 
-@RestController
+@RestController("encuestaControllerV1")
+@RequestMapping("/v1")
 public class EncuestaController {
 
     @Autowired
