@@ -5,12 +5,15 @@ import com.api.rest.dto.ErrorDetailDTO;
 import com.api.rest.dto.ValidationErrorDTO;
 import com.api.rest.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +21,10 @@ import java.util.List;
 
 @ControllerAdvice
 public class RestExceptionHandler {
+
+    @Autowired
+    private MessageSource messageSource;
+
 
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -32,7 +39,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception, HttpServletRequest httpServletRequest){
+    public @ResponseBody ErrorDetailDTO handleMethodArgumentNotValidException(MethodArgumentNotValidException exception, HttpServletRequest httpServletRequest){
 
         ErrorDetailDTO errorDetailDTO = new ErrorDetailDTO();
         errorDetailDTO.setTimeStamp(new Date().getTime());
@@ -56,11 +63,11 @@ public class RestExceptionHandler {
             }
             ValidationErrorDTO validationErrorDTO1 = new ValidationErrorDTO();
             validationErrorDTO1.setCode(fieldError.getCode());
-            validationErrorDTO1.setMessage(fieldError.getDefaultMessage());
+            validationErrorDTO1.setMessage(messageSource.getMessage(fieldError,null));
             validationErrorList.add(validationErrorDTO1);
         }
 
-        return new ResponseEntity<>(errorDetailDTO,null,HttpStatus.BAD_REQUEST);
+        return errorDetailDTO;
 
     }
 }
